@@ -40,7 +40,7 @@ export const PAYMENT_STATUS_TONES: Record<"pending" | "paid" | "refunded", Tone>
   refunded: "neutral",
 };
 
-export const CARRIER_LABELS: Record<CarrierId, string> = { speedy: "Спиди", econt: "Еконт", boxnow: "BOX NOW" };
+export const CARRIER_LABELS: Record<CarrierId, string> = { speedy: "Спиди", econt: "Еконт", boxnow: "BOX NOW", pigeon: "Pigeon Express" };
 
 export const DELIVERY_TYPE_LABELS: Record<DeliveryType, string> = {
   office: "До офис",

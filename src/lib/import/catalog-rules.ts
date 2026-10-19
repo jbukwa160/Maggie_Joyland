@@ -109,6 +109,11 @@ const PUPPET_OK = /принцес|princess|фея|fairy|еднорог|unicorn/i
 const GIRLY_COLOUR = /pink|розов|лилав|purple|lilac|rose/i;
 
 /** Returns a "girliness" score, or null when the product does not belong in the shop. */
+/** The export joins several pictures of one product with "$$$" in the Image URL column. */
+export function splitImageUrls(value: string): string[] {
+  return [...new Set((value ?? "").split("$$$").map((u) => u.trim()).filter((u) => /^https?:\/\//i.test(u)))];
+}
+
 export function girlScore(r: CsvRow): number | null {
   if (!TOY_SOURCE_CATEGORY.test(r.Category)) return null;
   if (r["Product Type"] === "pack" || /^pack /i.test(r.Name)) return null;

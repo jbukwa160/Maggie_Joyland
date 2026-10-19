@@ -1,4 +1,4 @@
-// Public: city autocomplete for the checkout. GET ?carrier=speedy|econt|boxnow&q=соф
+// Public: city autocomplete for the checkout. GET ?carrier=speedy|econt|boxnow|pigeon&q=соф
 import type { NextRequest } from "next/server";
 import { carriers, type CarrierId } from "@/db/schema";
 import { courierErrorMessage, getCarrier } from "@/lib/shipping";

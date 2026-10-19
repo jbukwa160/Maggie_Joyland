@@ -21,7 +21,7 @@ import { DeliveryPicker, emptyDelivery, type DeliveryValue } from "./DeliveryPic
 type Prefill = { firstName: string; lastName: string; email: string; phone: string; signedIn: boolean };
 
 const field = "h-12 w-full rounded-2xl border border-primary-200 bg-surface px-4 focus:border-accent-400 focus:outline-none focus:ring-4 focus:ring-primary-100";
-const CARRIER_COLOR = { speedy: "text-[#e2001a]", econt: "text-[#234a96]", boxnow: "text-[#46b26b]" };
+const CARRIER_COLOR = { speedy: "text-[#e2001a]", econt: "text-[#234a96]", boxnow: "text-[#46b26b]", pigeon: "text-[#6b4fa0]" };
 
 function Section({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (

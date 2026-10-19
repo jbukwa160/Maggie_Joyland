@@ -1,7 +1,7 @@
 // Default values for everything the shop owner can change in /admin/settings.
 // Kept free of server-only imports so client components can use the types.
 
-export type ShippingMethodId = "speedy_office" | "speedy_address" | "econt_office" | "econt_address" | "boxnow_locker";
+export type ShippingMethodId = "speedy_office" | "speedy_address" | "econt_office" | "econt_address" | "boxnow_locker" | "pigeon_office" | "pigeon_address";
 
 export type ShippingMethodConfig = {
   enabled: boolean;
@@ -89,6 +89,8 @@ export type SiteSettings = {
       econtOfficeCode: string;
       /** Speedy office id the parcels are dropped at (empty = pickup from address). */
       speedyOfficeId: string;
+      /** Pigeon Express office id the parcels are dropped at (empty = pickup from address). */
+      pigeonOfficeId: string;
     };
     /** Default parcel weight in kg when products have no weight. */
     defaultWeight: number;
@@ -124,6 +126,11 @@ export type SiteSettings = {
     newsletterTextBg: string;
     newsletterTextEn: string;
     valueProps: ValueProp[];
+    /** Folded corner on the hero banner ("Момчетата от другата страна"); empty link = caption only. */
+    teaserEnabled: boolean;
+    teaserTextBg: string;
+    teaserTextEn: string;
+    teaserLink: string;
   };
   seo: {
     titleBg: string;
@@ -295,6 +302,8 @@ export const DEFAULT_SETTINGS: SiteSettings = {
       econt_office: { enabled: true, price: 370, labelBg: "Еконт – до офис", labelEn: "Econt – to office" },
       econt_address: { enabled: true, price: 520, labelBg: "Еконт – до адрес", labelEn: "Econt – to address" },
       boxnow_locker: { enabled: true, price: 290, labelBg: "BOX NOW – до автомат", labelEn: "BOX NOW – to locker" },
+      pigeon_office: { enabled: true, price: 290, labelBg: "Pigeon Express – до офис или автомат", labelEn: "Pigeon Express – to office or locker" },
+      pigeon_address: { enabled: true, price: 390, labelBg: "Pigeon Express – до адрес", labelEn: "Pigeon Express – to address" },
     },
     codEnabled: true,
     codFee: 0,
@@ -311,6 +320,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
       address: "",
       econtOfficeCode: "",
       speedyOfficeId: "",
+      pigeonOfficeId: "",
     },
     defaultWeight: 1,
     priceMode: "fixed",
@@ -349,6 +359,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
       { icon: "shield", titleBg: "Оригинални играчки", titleEn: "Genuine toys", textBg: "Само проверени марки и безопасни материали", textEn: "Only trusted brands and safe materials" },
       { icon: "heart", titleBg: "Лесно връщане", titleEn: "Easy returns", textBg: "14 дни за връщане без въпроси", textEn: "14-day no-questions returns" },
     ],
+    teaserEnabled: true,
+    teaserTextBg: "Момчетата от другата страна",
+    teaserTextEn: "The boys are on the other side",
+    teaserLink: "",
   },
   seo: {
     titleBg: "Maggie Joyland – Играчки за момичета",

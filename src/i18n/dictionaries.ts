@@ -29,6 +29,7 @@ const bg = {
   },
   home: {
     shopNow: "Разгледай",
+    teaserWhisper: "псст…",
     seeAll: "Виж всички",
     youtubeSubscribe: "Абонирай се",
     youtubeVisit: "Към канала",
@@ -59,7 +60,7 @@ const bg = {
     details: "Детайли",
     description: "Описание",
     delivery: "Доставка",
-    deliveryText: "Доставка до офис или адрес на Спиди и Еконт или до автомат BOX NOW. Изпращаме до 1 работен ден.",
+    deliveryText: "Доставка до офис или адрес на Спиди, Еконт и Pigeon Express или до автомат BOX NOW. Изпращаме до 1 работен ден.",
     returnsText: "14 дни за връщане без въпроси.",
     giftText: "Всяка поръчка пристига внимателно опакована.",
     related: "Може да харесаш и",
@@ -386,6 +387,7 @@ const en: Dictionary = {
   },
   home: {
     shopNow: "Shop now",
+    teaserWhisper: "psst…",
     seeAll: "See all",
     youtubeSubscribe: "Subscribe",
     youtubeVisit: "Visit the channel",
@@ -416,7 +418,7 @@ const en: Dictionary = {
     details: "Details",
     description: "Description",
     delivery: "Delivery",
-    deliveryText: "Delivery to a Speedy or Econt office or address, or to a BOX NOW locker. We ship within 1 working day.",
+    deliveryText: "Delivery to a Speedy, Econt or Pigeon Express office or address, or to a BOX NOW locker. We ship within 1 working day.",
     returnsText: "14-day no-questions returns.",
     giftText: "Every order arrives carefully packed.",
     related: "You may also like",

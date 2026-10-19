@@ -6,6 +6,7 @@ import { getSettings } from "@/lib/settings";
 import { boxnow, testBoxnow } from "./boxnow";
 import { CourierError } from "./common";
 import { econt, quoteEcont, testEcont } from "./econt";
+import { pigeon, quotePigeon, testPigeon } from "./pigeon";
 import { quoteSpeedy, speedy, testSpeedy } from "./speedy";
 import { METHOD_CARRIER, type CarrierAdapter, type QuoteRequest, type ShippingQuoteInput } from "./types";
 
@@ -20,6 +21,8 @@ export function getCarrier(id: CarrierId): CarrierAdapter {
       return econt;
     case "boxnow":
       return boxnow;
+    case "pigeon":
+      return pigeon;
     default:
       throw new Error(`Unknown carrier: ${String(id)}`);
   }
@@ -92,7 +95,12 @@ export async function quoteShipping(input: ShippingQuoteInput): Promise<number |
         codAmount: Math.max(0, Math.round(input.codAmount)),
         declaredValue: Math.max(0, Math.round(input.declaredValue)),
       };
-      const quote = target.carrier === "speedy" ? quoteSpeedy(request, QUOTE_TIMEOUT_MS) : quoteEcont(request, QUOTE_TIMEOUT_MS);
+      const quote =
+        target.carrier === "speedy"
+          ? quoteSpeedy(request, QUOTE_TIMEOUT_MS)
+          : target.carrier === "pigeon"
+            ? quotePigeon(request, QUOTE_TIMEOUT_MS)
+            : quoteEcont(request, QUOTE_TIMEOUT_MS);
       // Bound the whole quote (incl. a first nomenclature load) so the cart never waits long.
       let timer: ReturnType<typeof setTimeout> | undefined;
       const timeout = new Promise<never>((_, reject) => {
@@ -130,7 +138,7 @@ export async function testCarrier(id: CarrierId): Promise<CarrierTestResult> {
   const configured = adapter.isConfigured();
   if (!configured) return { configured, ok: false, sampleCount: 0, error: "Липсват данни за достъп в .env.local", ms: 0 };
   try {
-    const sampleCount = await (id === "speedy" ? testSpeedy() : id === "econt" ? testEcont() : testBoxnow());
+    const sampleCount = await (id === "speedy" ? testSpeedy() : id === "econt" ? testEcont() : id === "pigeon" ? testPigeon() : testBoxnow());
     return { configured, ok: true, sampleCount, error: null, ms: Date.now() - started };
   } catch (e) {
     return { configured, ok: false, sampleCount: 0, error: courierErrorMessage(e), ms: Date.now() - started };

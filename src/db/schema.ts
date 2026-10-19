@@ -208,7 +208,7 @@ export const settings = sqliteTable("settings", {
 
 export const orderStatuses = ["new", "confirmed", "processing", "shipped", "delivered", "cancelled", "returned"] as const;
 export type OrderStatus = (typeof orderStatuses)[number];
-export const carriers = ["speedy", "econt", "boxnow"] as const;
+export const carriers = ["speedy", "econt", "boxnow", "pigeon"] as const;
 export type CarrierId = (typeof carriers)[number];
 export const deliveryTypes = ["office", "address", "locker"] as const;
 export type DeliveryType = (typeof deliveryTypes)[number];

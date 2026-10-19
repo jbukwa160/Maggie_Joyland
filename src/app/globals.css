@@ -203,3 +203,158 @@
 @utility animate-sparkle {
   animation: sparkle 2.4s ease-in-out infinite;
 }
+
+/*
+ * ─── Folded page corner on the hero ("Момчетата от другата страна") ───────────────
+ * The top right corner of the pink banner is folded down along its diagonal: the flap (lower left
+ * triangle) is the back of the page and it is blue; the upper right triangle shows what is behind the
+ * page, where a rocket peeks out. Everything inside is sized in cqw, so it scales with the corner when
+ * it peels open on hover.
+ */
+@layer components {
+  .page-peel {
+    --peel: 7.25rem;
+    --boys-light: #e3efff;
+    --boys: #8ab8f2;
+    --boys-deep: #4f86d6;
+    --boys-night: #1f3c74;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 20;
+    width: var(--peel);
+    height: var(--peel);
+    container-type: size;
+    transform-origin: top right;
+    transition:
+      width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+      height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: peel-flutter 7s ease-in-out 2.5s infinite;
+    -webkit-tap-highlight-color: transparent;
+  }
+  @media (min-width: 640px) {
+    .page-peel {
+      --peel: 8.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .page-peel {
+      --peel: 9.5rem;
+    }
+  }
+  @media (hover: hover) {
+    .page-peel:hover {
+      --peel: 13rem;
+      animation: none;
+    }
+  }
+  .page-peel:focus-visible {
+    --peel: 13rem;
+    animation: none;
+    outline: none;
+  }
+
+  .page-peel__under {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    background:
+      linear-gradient(45deg, rgb(8 20 50 / 0.5) 50%, transparent 66%),
+      radial-gradient(circle, rgb(255 255 255 / 0.7) 0 1px, transparent 1.5px) 3px 2px / 13px 13px,
+      radial-gradient(circle, rgb(255 255 255 / 0.35) 0 1px, transparent 1.5px) 9px 8px / 17px 17px,
+      var(--boys-night);
+  }
+  .page-peel__rocket {
+    position: absolute;
+    left: 60%;
+    top: 11%;
+    width: 25cqw;
+    height: 25cqw;
+    color: #fff;
+    fill: var(--boys);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .page-peel:hover .page-peel__rocket,
+  .page-peel:focus-visible .page-peel__rocket {
+    transform: translate(6%, -6%) rotate(-6deg);
+  }
+
+  .page-peel__shadow {
+    position: absolute;
+    inset: 0;
+    filter: drop-shadow(-3px 5px 6px rgb(91 58 75 / 0.3));
+  }
+  .page-peel__flap {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+    /* 225deg runs from the top right corner to the bottom left one: the fold is at 50%. */
+    background: linear-gradient(225deg, #fff 50%, var(--boys-light) 53%, #b7d4f8 72%, var(--boys) 90%, var(--boys-deep) 100%);
+  }
+  .page-peel__text {
+    position: absolute;
+    /* Centred on the flap's axis, 15% of the size away from the fold, written along the fold. */
+    left: 39.4%;
+    top: 60.6%;
+    width: 88cqw;
+    transform: translate(-50%, -50%) rotate(45deg);
+    color: var(--boys-night);
+    font-size: 9cqw;
+    font-weight: 900;
+    line-height: 1.08;
+    text-align: center;
+    text-wrap: balance;
+  }
+  .page-peel:focus-visible .page-peel__text {
+    text-decoration: underline 2px;
+    text-underline-offset: 2px;
+  }
+
+  .page-peel__whisper {
+    position: absolute;
+    right: calc(100% + 0.15rem);
+    top: 0.35rem;
+    font-family: var(--font-script);
+    font-size: 1.35rem;
+    line-height: 1;
+    white-space: nowrap;
+    color: var(--color-accent-600);
+    rotate: -10deg;
+    transition: opacity 0.3s;
+  }
+  .page-peel:hover .page-peel__whisper,
+  .page-peel:focus-visible .page-peel__whisper {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page-peel,
+    .page-peel__rocket {
+      animation: none;
+      transition: none;
+    }
+  }
+  @media print {
+    .page-peel {
+      display: none;
+    }
+  }
+}
+
+/* Every few seconds the corner lifts a little, as if someone is peeking from the other side. */
+@keyframes peel-flutter {
+  0%,
+  86%,
+  100% {
+    transform: none;
+  }
+  90% {
+    transform: scale(1.14);
+  }
+  93% {
+    transform: scale(1.03);
+  }
+  96% {
+    transform: scale(1.09);
+  }
+}

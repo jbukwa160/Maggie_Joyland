@@ -12,7 +12,7 @@ import { categories, products, productThemes, themes } from "../../db/schema";
 import { slugify } from "../format";
 import { translationsFile } from "../paths";
 import { applyToyInfo } from "./apply-toy-info";
-import { ADULT_SOURCE_CATEGORY, CATEGORY_DEFS, CATEGORY_MENU_ORDER, GENERIC_BRANDS, THEME_DEFS, categorize, estimatePrice, girlScore, isAdult, themesFor, type CsvRow } from "./catalog-rules";
+import { ADULT_SOURCE_CATEGORY, CATEGORY_DEFS, CATEGORY_MENU_ORDER, GENERIC_BRANDS, THEME_DEFS, categorize, estimatePrice, girlScore, isAdult, splitImageUrls, themesFor, type CsvRow } from "./catalog-rules";
 
 export async function ensureCatalogStructure() {
   const { db, sqlite } = openDb();
@@ -140,7 +140,7 @@ export async function importProducts(csvPath: string, onlySync = false) {
           reserved: toInt(row.Reserved),
           weight: Number(row.Weight) || 0,
           color: row.Color ?? "",
-          images: [row["Image URL"]],
+          images: splitImageUrls(row["Image URL"]),
           sourceCategory: row.Category,
           searchText,
           priceConfirmed: false,

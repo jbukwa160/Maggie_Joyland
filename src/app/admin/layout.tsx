@@ -14,11 +14,11 @@ export const metadata: Metadata = {
 
 export default function AdminRootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="bg" className={fontVariables}>
+    <html lang="bg" className={fontVariables} suppressHydrationWarning>
       <head>
         <ThemeStyle />
       </head>
-      <body className="bg-cream font-sans text-ink antialiased">{children}</body>
+      <body className="bg-cream font-sans text-ink antialiased" suppressHydrationWarning>{children}</body>
     </html>
   );
 }

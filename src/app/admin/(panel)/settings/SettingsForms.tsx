@@ -351,6 +351,16 @@ export function HomeForm({ home, announcement, bonus }: { home: SiteSettings["ho
         </div>
       </Card>
 
+      <Card title="Ъгълче на големия банер" description="Подвит ъгъл горе вдясно на банера: „отзад“ розовата страница е синя – за момчетата от другата страна.">
+        <div className="flex flex-col gap-4">
+          <Toggle name="teaserEnabled" defaultChecked={home.teaserEnabled} label="Показвай ъгълчето" />
+          <BilingualField label="Надпис" nameBg="teaserTextBg" nameEn="teaserTextEn" defaultBg={home.teaserTextBg} defaultEn={home.teaserTextEn} error={errors["home.teaserTextBg"]} />
+          <Field label="Връзка (по желание)" htmlFor="teaserLink" error={errors["home.teaserLink"]} hint="Празно = само надпис. Пълен адрес (https://…) се отваря в нов раздел.">
+            <LinkPicker id="teaserLink" name="teaserLink" defaultValue={home.teaserLink} placeholder="https://…" invalid={!!errors["home.teaserLink"]} />
+          </Field>
+        </div>
+      </Card>
+
       <Card title="Секции на началната страница" description="Включете или изключете секциите и сменете заглавията им.">
         <ul className="flex flex-col divide-y divide-primary-50">
           {SECTIONS.map((s) => (
@@ -474,6 +484,8 @@ const METHODS: { id: ShippingMethodId; carrier: string }[] = [
   { id: "econt_office", carrier: "Еконт" },
   { id: "econt_address", carrier: "Еконт" },
   { id: "boxnow_locker", carrier: "BOX NOW" },
+  { id: "pigeon_office", carrier: "Pigeon Express" },
+  { id: "pigeon_address", carrier: "Pigeon Express" },
 ];
 
 type CarrierCheck = { configured: boolean; ok: boolean; sampleCount: number; error: string | null; ms: number };
@@ -482,7 +494,7 @@ function CourierCheck() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<Record<string, CarrierCheck> | null>(null);
   const [error, setError] = useState("");
-  const names: Record<string, string> = { speedy: "Спиди", econt: "Еконт", boxnow: "BOX NOW" };
+  const names: Record<string, string> = { speedy: "Спиди", econt: "Еконт", boxnow: "BOX NOW", pigeon: "Pigeon Express" };
 
   const run = async () => {
     setLoading(true);
@@ -662,6 +674,9 @@ export function ShippingForm({ shipping }: { shipping: SiteSettings["shipping"] 
             </Field>
             <Field label="Офис на Спиди за предаване (ID)" htmlFor="sender.speedyOfficeId" hint="Празно = куриерът взима пратките от адреса.">
               <Input id="sender.speedyOfficeId" name="sender.speedyOfficeId" defaultValue={shipping.sender.speedyOfficeId} />
+            </Field>
+            <Field label="Офис на Pigeon Express за предаване (ID)" htmlFor="sender.pigeonOfficeId" hint="Празно = куриерът взима пратките от адреса.">
+              <Input id="sender.pigeonOfficeId" name="sender.pigeonOfficeId" defaultValue={shipping.sender.pigeonOfficeId} />
             </Field>
           </Grid>
         </div>

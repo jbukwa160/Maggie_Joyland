@@ -45,7 +45,7 @@ We only sell genuine toys from trusted brands, pack every order with care and an
     titleBg: "Доставка и плащане",
     titleEn: "Delivery & payment",
     contentBg: `## Куриери
-Доставяме в цяла България със **Спиди**, **Еконт** и **BOX NOW**. Можете да изберете доставка до офис, до адрес или до автомат BOX NOW.
+Доставяме в цяла България със **Спиди**, **Еконт**, **Pigeon Express** и **BOX NOW**. Можете да изберете доставка до офис, до адрес или до автомат.
 
 ## Срок за доставка
 Поръчки, направени до 15:00 в работен ден, се изпращат същия ден. Доставката отнема 1–2 работни дни.
@@ -57,7 +57,7 @@ We only sell genuine toys from trusted brands, pack every order with care and an
 - Наложен платеж – плащате на куриера при получаване
 - Банков превод – данните за превод се показват след поръчката`,
     contentEn: `## Couriers
-We deliver across Bulgaria with **Speedy**, **Econt** and **BOX NOW**. You can choose delivery to an office, to an address or to a BOX NOW locker.
+We deliver across Bulgaria with **Speedy**, **Econt**, **Pigeon Express** and **BOX NOW**. You can choose delivery to an office, to an address or to a locker.
 
 ## Delivery time
 Orders placed before 3 pm on a working day are shipped the same day. Delivery takes 1–2 working days.
@@ -272,13 +272,14 @@ export function seedContent() {
 
   // ── Home page banners ──
   if (!db.select().from(banners).get()) {
+    const hasPicture = sql`${products.images} != '[]'`;
     const imageOf = (themeSlug: string) =>
       db
         .select({ images: products.images })
         .from(products)
         .innerJoin(productThemes, eq(productThemes.productId, products.id))
         .innerJoin(themes, eq(themes.id, productThemes.themeId))
-        .where(and(visible, eq(themes.slug, themeSlug), eq(products.isFeatured, true)))
+        .where(and(visible, hasPicture, eq(themes.slug, themeSlug), eq(products.isFeatured, true)))
         .orderBy(asc(products.id))
         .limit(1)
         .get()?.images[0] ??
@@ -287,7 +288,7 @@ export function seedContent() {
         .from(products)
         .innerJoin(productThemes, eq(productThemes.productId, products.id))
         .innerJoin(themes, eq(themes.id, productThemes.themeId))
-        .where(and(visible, eq(themes.slug, themeSlug)))
+        .where(and(visible, hasPicture, eq(themes.slug, themeSlug)))
         .orderBy(desc(products.stock))
         .limit(1)
         .get()?.images[0] ??

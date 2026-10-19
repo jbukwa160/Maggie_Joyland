@@ -266,7 +266,8 @@ export async function getFeaturedProducts(locale: Locale, limit = 8) {
   let rows = db
     .select()
     .from(products)
-    .where(and(...conds, eq(products.isFeatured, true)))
+    // A featured product whose picture was removed as dead would show only the placeholder on the home page.
+    .where(and(...conds, eq(products.isFeatured, true), sql`${products.images} != '[]'`))
     .orderBy(desc(products.updatedAt))
     .limit(limit)
     .all();
@@ -285,7 +286,14 @@ export async function getFeaturedProducts(locale: Locale, limit = 8) {
 
 export async function getNewProducts(locale: Locale, limit = 8) {
   const conds = await visibleConditions(true);
-  const rows = db.select().from(products).where(and(...conds)).orderBy(desc(products.isNew), desc(products.createdAt), desc(products.id)).limit(limit).all();
+  // Home page rail: products whose picture link was removed as dead would show only the placeholder.
+  const rows = db
+    .select()
+    .from(products)
+    .where(and(...conds, sql`${products.images} != '[]'`))
+    .orderBy(desc(products.isNew), desc(products.createdAt), desc(products.id))
+    .limit(limit)
+    .all();
   return toCards(rows, locale);
 }
 
@@ -294,7 +302,7 @@ export async function getSaleProducts(locale: Locale, limit = 8) {
   const rows = db
     .select()
     .from(products)
-    .where(and(...conds, onSaleCondition(await getActivePromotions())))
+    .where(and(...conds, onSaleCondition(await getActivePromotions()), sql`${products.images} != '[]'`))
     .orderBy(desc(sql`${products.price} - ${sortPriceExpr}`), desc(products.updatedAt))
     .limit(limit)
     .all();

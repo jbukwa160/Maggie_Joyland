@@ -183,11 +183,16 @@ export async function saveHomeSettings(_prev: ActionState, fd: FormData): Promis
         newsletterTextBg: text(500),
         newsletterTextEn: text(500),
         valueProps: z.array(valuePropSchema).max(8, "Най-много 8 предимства."),
+        teaserEnabled: z.boolean(),
+        teaserTextBg: text(80),
+        teaserTextEn: text(80),
+        teaserLink: zLink,
       }),
       bonusTexts: z.object({ titleBg: text(200), titleEn: text(200), textBg: text(1000), textEn: text(1000) }),
     })
     .superRefine((d, ctx) => {
       if (d.announcement.enabled && !d.announcement.textBg) ctx.addIssue({ code: "custom", path: ["announcement", "textBg"], message: "Въведете текст на лентата или я изключете." });
+      if (d.home.teaserEnabled && !d.home.teaserTextBg) ctx.addIssue({ code: "custom", path: ["home", "teaserTextBg"], message: "Въведете надпис или изключете ъгълчето." });
     })
     .safeParse({
       announcement: { enabled: bool(fd, "announcement.enabled"), textBg: str(fd, "announcement.textBg"), textEn: str(fd, "announcement.textEn"), link: str(fd, "announcement.link") },
@@ -217,6 +222,10 @@ export async function saveHomeSettings(_prev: ActionState, fd: FormData): Promis
         newsletterTextBg: str(fd, "newsletterTextBg"),
         newsletterTextEn: str(fd, "newsletterTextEn"),
         valueProps,
+        teaserEnabled: bool(fd, "teaserEnabled"),
+        teaserTextBg: str(fd, "teaserTextBg"),
+        teaserTextEn: str(fd, "teaserTextEn"),
+        teaserLink: str(fd, "teaserLink"),
       },
       bonusTexts: { titleBg: str(fd, "bonus.titleBg"), titleEn: str(fd, "bonus.titleEn"), textBg: str(fd, "bonus.textBg"), textEn: str(fd, "bonus.textEn") },
     });
@@ -233,7 +242,7 @@ export async function saveHomeSettings(_prev: ActionState, fd: FormData): Promis
 
 /* ─── Доставка и плащане ─── */
 
-const METHOD_IDS: ShippingMethodId[] = ["speedy_office", "speedy_address", "econt_office", "econt_address", "boxnow_locker"];
+const METHOD_IDS: ShippingMethodId[] = ["speedy_office", "speedy_address", "econt_office", "econt_address", "boxnow_locker", "pigeon_office", "pigeon_address"];
 
 export async function saveShippingSettings(_prev: ActionState, fd: FormData): Promise<ActionState> {
   await requireAdmin();
@@ -258,6 +267,7 @@ export async function saveShippingSettings(_prev: ActionState, fd: FormData): Pr
         address: text(300),
         econtOfficeCode: text(50),
         speedyOfficeId: text(50),
+        pigeonOfficeId: text(50),
       }),
       defaultWeight: z.number().refine((v) => Number.isFinite(v) && v > 0 && v <= 100, "Теглото трябва да е между 0.01 и 100 кг."),
       priceMode: z.enum(["fixed", "courier"]),
@@ -292,6 +302,7 @@ export async function saveShippingSettings(_prev: ActionState, fd: FormData): Pr
         address: str(fd, "sender.address"),
         econtOfficeCode: str(fd, "sender.econtOfficeCode"),
         speedyOfficeId: str(fd, "sender.speedyOfficeId"),
+        pigeonOfficeId: str(fd, "sender.pigeonOfficeId"),
       },
       defaultWeight: weightRaw ? Number(weightRaw) : NaN,
       priceMode: str(fd, "priceMode") === "courier" ? "courier" : "fixed",

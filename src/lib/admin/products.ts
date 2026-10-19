@@ -33,6 +33,8 @@ export type ProductFilters = {
   unconfirmed: boolean;
   age: "" | "none" | "rule" | "admin";
   audience: "" | "girls" | "boys" | "all";
+  /** "none" = products without any picture (e.g. after `npm run check:images -- --apply`). */
+  photo: "" | "none";
   sort: ProductSort;
   page: number;
 };
@@ -63,6 +65,7 @@ export function parseProductFilters(sp: Params): ProductFilters {
     unconfirmed: one(sp, "unconfirmed") === "1",
     age: oneOf(one(sp, "age"), ["", "none", "rule", "admin"], ""),
     audience: oneOf(one(sp, "audience"), ["", "girls", "boys", "all"], ""),
+    photo: oneOf(one(sp, "photo"), ["", "none"], ""),
     sort: oneOf(one(sp, "sort"), Object.keys(productSorts) as ProductSort[], "newest"),
     page,
   };
@@ -123,6 +126,7 @@ export async function productConditions(f: ProductFilters): Promise<SQL | undefi
   if (f.age === "rule") conds.push(eq(products.ageSource, "rule"));
   if (f.age === "admin") conds.push(eq(products.ageSource, "admin"));
   if (f.audience) conds.push(eq(products.audience, f.audience));
+  if (f.photo === "none") conds.push(sql`${products.images} = '[]'`);
   const list = conds.filter((c): c is SQL => !!c);
   return list.length ? and(...list) : undefined;
 }

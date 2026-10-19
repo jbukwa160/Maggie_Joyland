@@ -13,7 +13,8 @@
     "setup": "tsx --env-file=.env.local scripts/setup.ts",
     "import:products": "tsx --env-file=.env.local scripts/import-products.ts",
     "sync:stock": "tsx --env-file=.env.local scripts/import-products.ts --sync-stock",
-    "toy-info": "tsx --env-file=.env.local scripts/toy-info.ts"
+    "toy-info": "tsx --env-file=.env.local scripts/toy-info.ts",
+    "check:images": "tsx --env-file=.env.local scripts/check-images.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

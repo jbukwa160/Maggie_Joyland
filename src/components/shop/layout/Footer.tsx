@@ -143,6 +143,7 @@ export function Footer({ locale, dict, settings, categories, pages }: Props) {
             <span className="rounded-full bg-surface px-3 py-1.5 text-[#e2001a]">Speedy</span>
             <span className="rounded-full bg-surface px-3 py-1.5 text-[#234a96]">Econt</span>
             <span className="rounded-full bg-surface px-3 py-1.5 text-[#46b26b]">BOX NOW</span>
+            <span className="rounded-full bg-surface px-3 py-1.5 text-[#6b4fa0]">Pigeon Express</span>
           </div>
         </div>
       </div>

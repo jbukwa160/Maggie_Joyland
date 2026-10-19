@@ -1,5 +1,6 @@
 // Admin: read-only check of each courier's credentials (no shipments are created).
-// Speedy: offices in Sofia; Econt: offices in Sofia + client profile (proves the password); BOX NOW: token + lockers + warehouse.
+// Speedy: offices in Sofia; Econt: offices in Sofia + client profile (proves the password); BOX NOW: token + lockers + warehouse;
+// Pigeon Express: one page of the office list (every call needs the API key).
 import { carriers } from "@/db/schema";
 import { getCurrentUser } from "@/lib/auth";
 import { testCarrier, type CarrierTestResult } from "@/lib/shipping";

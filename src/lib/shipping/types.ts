@@ -81,6 +81,9 @@ export const METHOD_CARRIER: Record<ShippingMethodId, { carrier: CarrierId; deli
   econt_office: { carrier: "econt", deliveryType: "office" },
   econt_address: { carrier: "econt", deliveryType: "address" },
   boxnow_locker: { carrier: "boxnow", deliveryType: "locker" },
+  // Offices and APS lockers are listed together (like Speedy / Econt); the adapter tells them apart.
+  pigeon_office: { carrier: "pigeon", deliveryType: "office" },
+  pigeon_address: { carrier: "pigeon", deliveryType: "address" },
 };
 
 export function methodFor(carrier: CarrierId, deliveryType: string): ShippingMethodId | null {
@@ -90,7 +93,7 @@ export function methodFor(carrier: CarrierId, deliveryType: string): ShippingMet
   return null;
 }
 
-export const CARRIER_NAMES: Record<CarrierId, string> = { speedy: "Speedy", econt: "Econt", boxnow: "BOX NOW" };
+export const CARRIER_NAMES: Record<CarrierId, string> = { speedy: "Speedy", econt: "Econt", boxnow: "BOX NOW", pigeon: "Pigeon Express" };
 
 /**
  * Bulgarian phone number in international format: "0888 123 456" / "00359888123456" / "888123456" -> "+359888123456".
@@ -120,5 +123,7 @@ export function trackingUrl(carrier: CarrierId, trackingNumber: string): string 
       return `https://www.econt.com/services/track-shipment/${encodeURIComponent(trackingNumber)}`;
     case "boxnow":
       return `https://boxnow.bg/?track=${encodeURIComponent(trackingNumber)}`;
+    case "pigeon":
+      return `https://track.pigeonexpress.com/?tracking_number=${encodeURIComponent(trackingNumber)}`;
   }
 }

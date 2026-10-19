@@ -83,6 +83,7 @@ export default async function ProductsPage({ searchParams }: PageProps<"/admin/p
     { label: "Скрити", href: "/admin/products?status=hidden", active: filterQuery === "status=hidden" },
     { label: "Препоръчани", href: "/admin/products?featured=yes", active: filterQuery === "featured=yes" },
     { label: "Без възраст", href: "/admin/products?age=none", active: filterQuery === "age=none" },
+    { label: "Без снимка", href: "/admin/products?photo=none", active: filterQuery === "photo=none" },
     { label: "Ориентировъчна възраст", href: "/admin/products?age=rule", active: filterQuery === "age=rule" },
   ];
 

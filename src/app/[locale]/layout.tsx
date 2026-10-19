@@ -40,11 +40,11 @@ export default async function LocaleLayout({ children, params }: LayoutProps<"/[
   const dict = getDictionary(locale);
 
   return (
-    <html lang={locale} className={`${fontVariables} antialiased`}>
+    <html lang={locale} className={`${fontVariables} antialiased`} suppressHydrationWarning>
       <head>
         <ThemeStyle />
       </head>
-      <body className="flex min-h-dvh flex-col bg-cream font-sans text-ink">
+      <body className="flex min-h-dvh flex-col bg-cream font-sans text-ink" suppressHydrationWarning>
         <I18nProvider locale={locale} dict={dict}>
           <CartProvider freeShippingThreshold={settings.shipping.freeShippingThreshold}>
             <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-surface focus:px-4 focus:py-2">

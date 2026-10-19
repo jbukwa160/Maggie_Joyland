@@ -1,4 +1,4 @@
-# Куриери / Couriers (Speedy, Econt, BOX NOW)
+# Куриери / Couriers (Speedy, Econt, BOX NOW, Pigeon Express)
 
 **BG:** Магазинът показва офиси/автомати при поръчка и създава товарителници от админ панела
 (`createShipmentForOrder` / `cancelShipmentForOrder` в `actions.ts`, етикет: `/api/admin/shipping/label?orderId=…`).
@@ -14,11 +14,12 @@ Money is stored in cents and sent to couriers as decimal EUR. Phone numbers are 
 | --- | --- | --- |
 | Speedy | REST API v1 `https://api.speedy.bg/v1`, user/password in every JSON body. Sites from `/location/site/csv/100`, offices + APT lockers from `/location/office`. Shipment: service 505 (СТАНДАРТ 24 ЧАСА), sender pays, COD `CASH` in EUR, ref1 = order number. Label: `/print` A6. | `SPEEDY_USERNAME`, `SPEEDY_PASSWORD`, optional `SPEEDY_SERVICE_ID` (505), `SPEEDY_PAYER` (`SENDER`) |
 | Econt | JSON API `https://ee.econt.com/services/` (or demo), HTTP Basic auth. Cities/offices are public nomenclatures (APS = locker). `LabelService.createLabel` (mode `create`), label PDF from the returned `pdfURL`, cancel with `LabelService.deleteLabels`. | `ECONT_USERNAME`, `ECONT_PASSWORD`, `ECONT_ENV` (`production` / `demo`), optional `ECONT_SENDER_PAYMENT` (`cash` / `credit`, empty = account default) |
+| Pigeon Express | REST API v1 `https://api.pigeonexpress.com/v1` (sandbox `api-demo.…`), headers `X-API-Key` / `X-API-Secret`. Cities (~5300) and offices + APS lockers (~450) are paged lists (100 per page), loaded fully and cached. Office and locker delivery are one method (`pigeon_office`); the adapter sends `delivery_type` `office` or `locker` from the cached list. Shipment: `POST /shipments` with `external_reference` = order number, packages with the default size (products have no dimensions), COD/declared value in `service_codes` (EUR), sender pays. Address delivery sends the address as `additional_info` (no street id). Label `GET /shipments/{ref}/label`, cancel `POST /shipments/{ref}/cancel` (only while `shipment_registered`). | `PIGEON_API_KEY`, `PIGEON_API_SECRET`, optional `PIGEON_ENV` (`demo`), `PIGEON_API_URL` (override), `PIGEON_PACKAGE_SIZE` (`30x20x15` cm), `PIGEON_LABEL_FORMAT` (`default` 100×90 / `pdf150` / `a4`), `PIGEON_SERVICE_TYPE` (`standard` / `express`), `PIGEON_WHO_PAYS` (`sender` / `receiver`) |
 | BOX NOW | Partner API (same calls as the official WooCommerce plugin): `auth-sessions` token, `destinations` lockers, `delivery-requests`, `parcels/{id}/label.pdf`, `parcels/{id}:cancel`. Origin = `BOXNOW_WAREHOUSE_ID`. | `BOXNOW_API_URL`, `BOXNOW_CLIENT_ID`, `BOXNOW_CLIENT_SECRET`, `BOXNOW_WAREHOUSE_ID`, optional `BOXNOW_COMPARTMENT_SIZE` (1-3, default 2). `BOXNOW_PARTNER_ID` is not needed by these API calls (the plugin does not send it either). |
 
-Live prices (`settings.shipping.priceMode = "courier"`): `quoteShipping()` in `index.ts` asks Speedy (`/calculate`) or
-Econt (`createLabel` with mode `calculate`) for the price in cents incl. VAT, cached 10 min in memory; BOX NOW has no
+Live prices (`settings.shipping.priceMode = "courier"`): `quoteShipping()` in `index.ts` asks Speedy (`/calculate`),
+Econt (`createLabel` with mode `calculate`) or Pigeon Express (`/shipments/calculate`) for the price in cents incl. VAT, cached 10 min in memory; BOX NOW has no
 price API, so `null` is returned and the fixed price applies.
 
-Sender data (name, phone, email, address, Speedy/Econt drop-off office) comes from **Настройки → Доставка**
+Sender data (name, phone, email, address, Speedy/Econt/Pigeon drop-off office) comes from **Настройки → Доставка**
 (`settings.shipping.sender`); parcel weight from product weights or `settings.shipping.defaultWeight`.

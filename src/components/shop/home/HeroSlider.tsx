@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Bow, Heart, ScallopDivider, Sparkle } from "../Decorations";
 import { ProductImage } from "../ProductImage";
@@ -84,7 +84,8 @@ function Slide({ slide, active, first }: { slide: HeroSlide; active: boolean; fi
   );
 }
 
-export function HeroSlider({ slides, labels }: { slides: HeroSlide[]; labels: { prev: string; next: string } }) {
+/** `children` are overlays on top of every slide (the folded corner teaser). */
+export function HeroSlider({ slides, labels, children }: { slides: HeroSlide[]; labels: { prev: string; next: string }; children?: ReactNode }) {
   const [index, setIndex] = useState(0);
   const paused = useRef(false);
   const count = slides.length;
@@ -112,6 +113,7 @@ export function HeroSlider({ slides, labels }: { slides: HeroSlide[]; labels: { 
         <Slide key={s.id} slide={s} active={i === index} first={i === 0} />
       ))}
       <ScallopDivider className="absolute inset-x-0 bottom-0 z-10 rotate-180" color="var(--color-cream)" />
+      {children}
       {count > 1 && (
         <>
           <button type="button" onClick={() => go(index - 1)} className="absolute left-3 top-1/2 hidden size-11 -translate-y-1/2 place-items-center rounded-full bg-surface/80 shadow transition hover:bg-surface sm:grid" aria-label={labels.prev}>

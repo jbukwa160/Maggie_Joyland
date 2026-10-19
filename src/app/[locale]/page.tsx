@@ -7,6 +7,7 @@ import { getBanners, getCategories, getCategoryCounts, getFeaturedProducts, getN
 import { getSettings, type SiteSettings } from "@/lib/settings";
 import { resolveLink } from "@/lib/links";
 import { HeroSlider } from "@/components/shop/home/HeroSlider";
+import { PageCornerTeaser } from "@/components/shop/home/PageCornerTeaser";
 import { Rail } from "@/components/shop/home/Rail";
 import { NewsletterForm } from "@/components/shop/home/Newsletter";
 import { YoutubeSection } from "@/components/shop/home/YoutubeSection";
@@ -183,13 +184,18 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       textTone: b.textTone,
     };
   });
+  const teaserText = pick(locale, home.teaserTextBg, home.teaserTextEn);
+  const teaser = home.teaserEnabled && teaserText ? <PageCornerTeaser text={teaserText} whisper={dict.home.teaserWhisper} link={home.teaserLink} locale={locale} /> : null;
 
   return (
     <div className="space-y-16 pb-4 sm:space-y-20">
       {slides.length > 0 ? (
-        <HeroSlider slides={slides} labels={{ prev: dict.shop.prev, next: dict.shop.next }} />
+        <HeroSlider slides={slides} labels={{ prev: dict.shop.prev, next: dict.shop.next }}>
+          {teaser}
+        </HeroSlider>
       ) : (
-        <section className="bg-primary-100 px-6 pb-28 pt-20 text-center">
+        <section className="relative overflow-hidden bg-primary-100 px-6 pb-28 pt-20 text-center">
+          {teaser}
           <h1 className="font-display text-5xl">{settings.general.siteName}</h1>
           <p className="mt-3 text-xl text-ink-soft">{pick(locale, settings.general.taglineBg, settings.general.taglineEn)}</p>
         </section>
