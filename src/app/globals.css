@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/*
+ * ─── BRAND COLOURS ──────────────────────────────────────────────────────────────
+ * Change these 7 values to re-colour the whole shop. Every Tailwind colour used in
+ * the project (bg-primary-200, text-ink, border-accent-300 …) is derived from them.
+ * They can also be changed without touching code in Admin → Settings → Appearance
+ * (the admin values are injected on top of these defaults).
+ */
+:root {
+  --brand-primary: #f2a7bb; /* powder pink – main brand colour */
+  --brand-accent: #d6618a; /* rose – buttons, links, prices on sale */
+  --brand-secondary: #c8b4e3; /* lilac – secondary highlights */
+  --brand-cream: #fff8f5; /* page background */
+  --brand-ink: #5b3a4b; /* text */
+  --brand-gold: #d9b27c; /* doll-house gold details */
+  --brand-mint: #b9e2d3; /* success / in stock */
+}
+
+@theme inline {
+  /* Shades are mixed from the brand colours so a single change re-colours everything. */
+  --color-primary-50: color-mix(in oklab, var(--brand-primary) 10%, white);
+  --color-primary-100: color-mix(in oklab, var(--brand-primary) 22%, white);
+  --color-primary-200: color-mix(in oklab, var(--brand-primary) 42%, white);
+  --color-primary-300: color-mix(in oklab, var(--brand-primary) 68%, white);
+  --color-primary-400: var(--brand-primary);
+  --color-primary-500: color-mix(in oklab, var(--brand-primary) 82%, var(--brand-accent));
+  --color-primary-600: color-mix(in oklab, var(--brand-primary) 85%, black);
+  --color-primary-700: color-mix(in oklab, var(--brand-primary) 65%, black);
+
+  --color-accent-50: color-mix(in oklab, var(--brand-accent) 8%, white);
+  --color-accent-100: color-mix(in oklab, var(--brand-accent) 18%, white);
+  --color-accent-200: color-mix(in oklab, var(--brand-accent) 35%, white);
+  --color-accent-300: color-mix(in oklab, var(--brand-accent) 60%, white);
+  --color-accent-400: color-mix(in oklab, var(--brand-accent) 82%, white);
+  --color-accent-500: var(--brand-accent);
+  --color-accent-600: color-mix(in oklab, var(--brand-accent) 86%, black);
+  --color-accent-700: color-mix(in oklab, var(--brand-accent) 70%, black);
+
+  --color-secondary-50: color-mix(in oklab, var(--brand-secondary) 12%, white);
+  --color-secondary-100: color-mix(in oklab, var(--brand-secondary) 25%, white);
+  --color-secondary-200: color-mix(in oklab, var(--brand-secondary) 50%, white);
+  --color-secondary-300: color-mix(in oklab, var(--brand-secondary) 75%, white);
+  --color-secondary-400: var(--brand-secondary);
+  --color-secondary-500: color-mix(in oklab, var(--brand-secondary) 80%, black);
+  --color-secondary-600: color-mix(in oklab, var(--brand-secondary) 62%, black);
+
+  --color-cream: var(--brand-cream);
+  --color-cream-dark: color-mix(in oklab, var(--brand-cream) 92%, var(--brand-primary));
+  --color-surface: #ffffff;
+
+  --color-ink: var(--brand-ink);
+  --color-ink-soft: color-mix(in oklab, var(--brand-ink) 72%, white);
+  --color-ink-muted: color-mix(in oklab, var(--brand-ink) 50%, white);
+  --color-ink-faint: color-mix(in oklab, var(--brand-ink) 18%, white);
+
+  --color-gold-100: color-mix(in oklab, var(--brand-gold) 25%, white);
+  --color-gold-300: color-mix(in oklab, var(--brand-gold) 65%, white);
+  --color-gold: var(--brand-gold);
+  --color-gold-600: color-mix(in oklab, var(--brand-gold) 75%, black);
+
+  --color-mint-100: color-mix(in oklab, var(--brand-mint) 35%, white);
+  --color-mint: var(--brand-mint);
+  --color-mint-600: color-mix(in oklab, var(--brand-mint) 50%, black);
+
+  --color-danger: #d64545;
+  --color-danger-50: #fdeeee;
+  --color-warning: #c98a1b;
+  --color-warning-50: #fff6e5;
+
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-yeseva), Georgia, serif;
+  --font-script: var(--font-marck), cursive;
+
+  --radius-blob: 2.5rem;
+  --shadow-soft: 0 10px 30px -12px color-mix(in oklab, var(--brand-accent) 35%, transparent);
+  --shadow-card: 0 2px 0 0 color-mix(in oklab, var(--brand-primary) 30%, white), 0 12px 28px -18px color-mix(in oklab, var(--brand-ink) 40%, transparent);
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    background: var(--color-cream);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+  ::selection {
+    background: var(--color-primary-200);
+    color: var(--color-ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent-400);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Soft polka dots – used behind hero and section headers. */
+  .bg-dots {
+    background-image: radial-gradient(color-mix(in oklab, var(--brand-primary) 45%, transparent) 1.6px, transparent 1.8px);
+    background-size: 22px 22px;
+  }
+  .bg-dots-light {
+    background-image: radial-gradient(color-mix(in oklab, white 70%, transparent) 1.6px, transparent 1.8px);
+    background-size: 22px 22px;
+  }
+  /* Powder-pink gingham, like a doll-house tablecloth. */
+  .bg-gingham {
+    background-color: var(--color-primary-50);
+    background-image:
+      linear-gradient(90deg, color-mix(in oklab, var(--brand-primary) 22%, transparent) 50%, transparent 50%),
+      linear-gradient(color-mix(in oklab, var(--brand-primary) 22%, transparent) 50%, transparent 50%);
+    background-size: 28px 28px;
+  }
+  .scallop-edge {
+    height: 18px;
+    background: radial-gradient(circle at 50% 0, var(--scallop-color, var(--color-primary-200)) 12px, transparent 12.5px) 0 0 / 28px 18px repeat-x;
+  }
+  /* Arched "doll-house window" frame. */
+  .arch {
+    border-radius: 999px 999px 1.5rem 1.5rem;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  .prose-shop h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin: 1.75rem 0 0.75rem;
+    color: var(--color-ink);
+  }
+  .prose-shop h3 {
+    font-weight: 800;
+    font-size: 1.125rem;
+    margin: 1.25rem 0 0.5rem;
+  }
+  .prose-shop p {
+    margin: 0 0 0.9rem;
+    line-height: 1.75;
+    color: var(--color-ink-soft);
+  }
+  .prose-shop ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0 0 1rem;
+    color: var(--color-ink-soft);
+  }
+  .prose-shop ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    margin: 0 0 1rem;
+    color: var(--color-ink-soft);
+  }
+  .prose-shop li {
+    margin: 0.25rem 0;
+  }
+  .prose-shop a {
+    color: var(--color-accent-500);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .prose-shop .not-prose a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .prose-shop strong {
+    color: var(--color-ink);
+    font-weight: 800;
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(3deg);
+  }
+}
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@utility animate-float {
+  animation: float-slow 6s ease-in-out infinite;
+}
+@utility animate-sparkle {
+  animation: sparkle 2.4s ease-in-out infinite;
+}
