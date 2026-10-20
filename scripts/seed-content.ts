@@ -99,7 +99,7 @@ Return shipping is paid by the customer unless the product is faulty or we sent 
     contentBg: `*Това е примерен текст – моля, прегледайте го с юрист преди пускане на сайта.*
 
 ## 1. Търговец
-Онлайн магазинът Maggie Joyland се управлява от АРФА ЕС ЕООД. Данните за контакт са посочени на страница „Контакти“.
+Онлайн магазинът Maggie Joyland се управлява от **Екомм Трейдинг ЕООД**, ЕИК 207912857, ДДС № BG207912857, със седалище и адрес на управление гр. Варна, ул. „Цани Гинчев“ № 18, ет. 2, ап. 7, представлявано от управителя Мария Пламенова Цанева-Василкова. Данните за контакт са посочени на страница „Контакти“.
 
 ## 2. Поръчки
 Поръчката се счита за приета след потвърждение по имейл или телефон. Цените са в евро и включват ДДС.
@@ -115,7 +115,7 @@ Return shipping is paid by the customer unless the product is faulty or we sent 
     contentEn: `*This is a template – please have it reviewed by a lawyer before the site goes live.*
 
 ## 1. Merchant
-The Maggie Joyland online shop is operated by ARFA ES EOOD. Contact details are on the Contact page.
+The Maggie Joyland online shop is operated by **Ecomm Trading EOOD** (Екомм Трейдинг ЕООД), company ID (EIK) 207912857, VAT No. BG207912857, registered address 18 Tsani Ginchev St., fl. 2, apt. 7, Varna, Bulgaria, represented by its manager Maria Plamenova Tsaneva-Vasilkova. Contact details are on the Contact page.
 
 ## 2. Orders
 An order is accepted once confirmed by email or phone. Prices are in euro and include VAT.
@@ -136,6 +136,9 @@ Complaints are accepted at the shop's email address. We respond within 14 days.`
     titleEn: "Privacy policy",
     contentBg: `*Това е примерен текст – моля, прегледайте го с юрист преди пускане на сайта.*
 
+## Администратор на лични данни
+Екомм Трейдинг ЕООД, ЕИК 207912857, гр. Варна, ул. „Цани Гинчев“ № 18, ет. 2, ап. 7, представлявано от Мария Пламенова Цанева-Василкова.
+
 Обработваме личните данни, необходими за изпълнение на поръчката ви: име, телефон, имейл и адрес за доставка. Данните се предоставят само на избрания куриер.
 
 ## Вашите права
@@ -144,6 +147,9 @@ Complaints are accepted at the shop's email address. We respond within 14 days.`
 ## Бисквитки
 Използваме само необходими бисквитки за вход в профила и количката.`,
     contentEn: `*This is a template – please have it reviewed by a lawyer before the site goes live.*
+
+## Data controller
+Ecomm Trading EOOD (Екомм Трейдинг ЕООД), company ID (EIK) 207912857, 18 Tsani Ginchev St., fl. 2, apt. 7, Varna, Bulgaria, represented by Maria Plamenova Tsaneva-Vasilkova.
 
 We process the personal data needed to fulfil your order: name, phone, email and delivery address. The data is only shared with the courier you choose.
 

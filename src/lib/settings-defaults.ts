@@ -308,9 +308,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     codEnabled: true,
     codFee: 0,
     bankEnabled: true,
-    bankDetailsBg: "IBAN: BG00 XXXX 0000 0000 0000 00\nПолучател: АРФА ЕС ЕООД\nОснование: номерът на поръчката",
-    bankDetailsEn: "IBAN: BG00 XXXX 0000 0000 0000 00\nBeneficiary: ARFA ES EOOD\nReference: your order number",
+    bankDetailsBg: "IBAN: BG00 XXXX 0000 0000 0000 00\nПолучател: Екомм Трейдинг ЕООД\nОснование: номерът на поръчката",
+    bankDetailsEn: "IBAN: BG00 XXXX 0000 0000 0000 00\nBeneficiary: Ecomm Trading EOOD\nReference: your order number",
     sender: {
+      // Courier contracts (Speedy, Econt, BOX NOW) are under this company, so waybills keep it as the sender.
       name: "АРФА ЕС ЕООД",
       contactName: "",
       phone: "",
@@ -371,11 +372,11 @@ export const DEFAULT_SETTINGS: SiteSettings = {
     descriptionEn: "Dolls, plush toys, jewellery, craft kits and more toys for girls with fast delivery across Bulgaria.",
   },
   company: {
-    legalName: "АРФА ЕС ЕООД",
-    eik: "",
-    vatNumber: "",
-    registeredAddress: "",
-    manager: "",
+    legalName: "Екомм Трейдинг ЕООД",
+    eik: "207912857",
+    vatNumber: "BG207912857",
+    registeredAddress: "гр. Варна, ул. „Цани Гинчев“ № 18, ет. 2, ап. 7",
+    manager: "Мария Пламенова Цанева-Василкова",
   },
   bonus: {
     enabled: true,
