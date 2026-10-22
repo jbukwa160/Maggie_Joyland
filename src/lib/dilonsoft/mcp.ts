@@ -12,8 +12,10 @@ import type { ActionResponse, FieldSpec, FormSpec } from "./protocol";
 // admin panel's own sections and actions (admin/registry.ts), so an AI assistant can do exactly
 // what the panel can - with the same validation - and nothing the panel cannot.
 
+// Newest first. A client asking for a version not listed is answered with the newest one, as the
+// specification asks ("SHOULD be the latest version supported by the server").
 export const SUPPORTED_VERSIONS = ["2025-11-25", "2025-06-18", "2025-03-26", "2024-11-05"];
-const LATEST = "2025-06-18";
+const LATEST = SUPPORTED_VERSIONS[0]!;
 
 type JsonRpcRequest = { jsonrpc: "2.0"; id?: string | number | null; method: string; params?: Record<string, unknown> };
 type JsonRpcResponse = { jsonrpc: "2.0"; id: string | number | null; result?: unknown; error?: { code: number; message: string; data?: unknown } };
