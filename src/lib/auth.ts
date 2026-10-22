@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { eq, sql } from "drizzle-orm";
 import { db, users, type User } from "@/db";
+import { apiPrincipal } from "./dilonsoft/context";
 import { SESSION_COOKIE, SESSION_MAX_AGE, signSession, verifySession } from "./session-token";
 
 export async function hashPassword(password: string) {
@@ -46,6 +47,9 @@ export async function endSession() {
 
 /** The logged in user (fresh from the database) or null. Cached per request. */
 export const getCurrentUser = cache(async (): Promise<User | null> => {
+  // A DilonSoft / MCP request acts as the admin who created its API key (src/lib/dilonsoft/context.ts).
+  const api = apiPrincipal();
+  if (api) return api.user;
   const jar = await cookies();
   const session = await verifySession(jar.get(SESSION_COOKIE)?.value);
   if (!session) return null;

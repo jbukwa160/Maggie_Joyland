@@ -73,8 +73,38 @@ Result of the first import: **7,290 products** (about 4,100 in stock), sorted in
 | Поръчки / Клиенти | Orders, statuses, courier waybills and labels; customers with bonus points history |
 | Кодове / Абонати / Страници | Discount codes, newsletter subscribers, information pages |
 | Настройки | Contacts, company details, colours, shipping (fixed or live courier price), payments, bonus programme, chat, SEO |
+| API и MCP | API keys for DilonSoft and AI assistants (MCP), with the addresses to paste where they are needed |
 
 Security: sign-in is locked for 15 minutes after repeated wrong passwords (admin and customers); changing a password signs out all other devices.
+
+## DilonSoft and MCP (`src/lib/dilonsoft/`)
+
+The shop speaks the **DilonSoft Custom API** (protocol v1, written up in DilonSoft's `docs/CUSTOM-API.md`):
+
+* **Connect:** Admin → API и MCP → create a key. In DilonSoft: Settings → Sales channels → Custom API → the shop's
+  address (`SITE_URL`) and the key → Test connection.
+* **What DilonSoft does with it:** imports the orders (cancelled ones are left out and reported separately), sends
+  back the courier and tracking number when it ships an order, and — once its stock switch is on — sets what can be
+  sold (`stock`, with `reserved` cleared). Use only one stock source: with DilonSoft's stock switch on, don't also
+  upload stock files under Импорт or with the `stock` column of a price file.
+* **The admin panel inside DilonSoft:** every section of `/admin` (except the signed-in admin's own profile) is
+  described by `src/lib/dilonsoft/admin/sections/*.ts` and shown by DilonSoft as "Сайт · …". Every write goes
+  through the same server actions as `/admin`, so the same rules and messages apply. A key acts as the admin who
+  created it.
+* **MCP** for AI assistants: `POST /api/mcp` (stateless Streamable HTTP, the same key in `Authorization: Bearer …`).
+  Its tools list, read, create, update and delete records and run the panel's actions. Claude Code:
+  `claude mcp add --transport http maggie-joyland https://<shop>/api/mcp --header "Authorization: Bearer <key>"`.
+
+| Endpoint | |
+| --- | --- |
+| `GET /api/dilonsoft/v1` | who the shop is, protocol and capabilities |
+| `GET /api/dilonsoft/v1/orders?cursor=` · `/orders/cancelled?since=` · `/orders/{number}` | orders for DilonSoft |
+| `POST /api/dilonsoft/v1/orders/{number}/shipment` | carrier and tracking number from DilonSoft |
+| `GET /api/dilonsoft/v1/products?cursor=` · `PUT /products/{id}/stock` | the catalogue as listings, stock |
+| `/api/dilonsoft/v1/admin/...` | the admin panel: manifest, sections, records, actions, lookups, uploads |
+| `POST /api/mcp` | MCP |
+
+Keys are stored as SHA-256 hashes in the `settings` row `apiKeys` (no migration); the key itself is shown once.
 
 ## Shop features
 
@@ -130,11 +160,12 @@ Without SMTP, orders still work and appear in the admin.
 src/
   app/[locale]/        storefront pages (home, shop, product, cart, checkout, account, info pages)
   app/admin/           admin panel
-  app/api/             cart quote, courier lookups, admin uploads/imports
+  app/api/             cart quote, courier lookups, admin uploads/imports, DilonSoft API (dilonsoft/v1), MCP (mcp)
   components/shop/     storefront UI      components/admin/   admin UI
   db/                  Drizzle schema + connection
   i18n/                languages and dictionaries
   lib/                 catalog queries, pricing, cart, auth, settings, couriers, import
+  lib/dilonsoft/       the DilonSoft Custom API and MCP: keys, protocol, channel endpoints, admin sections
 scripts/               setup / import CLI
 data/translations/     English product names used by the importer
 $DATA_DIR              shop.db + uploaded images (outside the project, back it up)

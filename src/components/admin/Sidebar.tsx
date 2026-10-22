@@ -14,6 +14,7 @@ import {
   FolderTree,
   Gift,
   Image as ImageIcon,
+  KeyRound,
   LayoutDashboard,
   LogOut,
   Mail,
@@ -174,6 +175,7 @@ export function AdminShell({
       items: [
         { href: "/admin/settings", label: "Настройки", icon: Settings },
         { href: "/admin/profile", label: "Профил и админи", icon: UserCircle },
+        { href: "/admin/api", label: "API и MCP", icon: KeyRound },
       ],
     },
   ];

@@ -18,6 +18,8 @@ export async function GET(request: NextRequest) {
   const order = db.select().from(orders).where(eq(orders.id, orderId)).get();
   if (!order) return text("Поръчката не е намерена.", 404);
   if (!order.shipmentId && !order.trackingNumber) return text("Поръчката няма товарителница.", 404);
+  // Shipped by DilonSoft (src/lib/dilonsoft/channel.ts): the label is on DilonSoft's courier account.
+  if (order.shipmentData?.source === "dilonsoft") return text("Товарителницата е създадена от DilonSoft - етикетът е там.", 409);
 
   try {
     const pdf = await getCarrier(order.carrier).getLabelPdf(order);
