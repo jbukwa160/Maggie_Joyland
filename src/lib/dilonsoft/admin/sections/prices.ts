@@ -19,7 +19,7 @@ import { ApiError } from "../../http";
 import { paginate, t, type ActionCall, type TableSectionDef } from "../types";
 import { options } from "../util";
 
-// Admin → Цени и промоции. The page's records are its uploaded price files: an upload is stored as a
+// Admin → Цени. The page's records are its uploaded price files: an upload is stored as a
 // preview (price_imports) and nothing changes until it is confirmed, so the list holds the files that
 // wait for confirmation - the page's ?preview=<id> - and a record is that preview, applied or
 // discarded (delete). The downloads, the upload and the quick tools (a % promotion or a ±% price
@@ -163,7 +163,7 @@ export const pricesSection: TableSectionDef = {
   spec: {
     key: "prices",
     kind: "table",
-    title: t("Цени и промоции", "Prices and promotions"),
+    title: t("Цени", "Prices"),
     icon: "tags",
     description: t(
       "Сменете много цени наведнъж с Excel, пуснете промоция за цяла категория, марка или герой, или вдигнете/свалете цените с процент. Ценоразпис: свалете цените, в Excel променяйте колоните price, sale_price и stock (празна клетка = без промяна, намалена цена 0 = без намаление; разделител „;“, „,“ или табулация; десетична запетая или точка) и качете файла – нищо не се променя, докато не потвърдите прегледа. Ако DilonSoft синхронизира наличностите, оставете колоната stock празна. Тук са качените файлове, които чакат потвърждение.",

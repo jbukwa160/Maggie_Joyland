@@ -16,7 +16,6 @@ import { pricesSection } from "./sections/prices";
 import { salesSection } from "./sections/sales";
 import { couponsSection } from "./sections/coupons";
 import { subscribersSection } from "./sections/subscribers";
-import { inventorySection } from "./sections/inventory";
 import { categoriesSection } from "./sections/categories";
 import { charactersSection } from "./sections/characters";
 import { manufacturersSection } from "./sections/manufacturers";
@@ -38,7 +37,7 @@ export const GROUPS: { title: Text | null; sections: SectionDef[] }[] = [
   { title: t("Продажби", "Sales"), sections: [ordersSection, chatSection, customersSection, pricesSection, salesSection, couponsSection, subscribersSection] },
   {
     title: t("Каталог", "Catalogue"),
-    sections: [productsSection, inventorySection, categoriesSection, charactersSection, manufacturersSection, importSection],
+    sections: [productsSection, categoriesSection, charactersSection, manufacturersSection, importSection],
   },
   { title: t("Съдържание", "Content"), sections: [menuSection, bannersSection, giftsSection, blogSection, pagesSection] },
   { title: t("Магазин", "Shop"), sections: [settingsSection, adminsSection] },
