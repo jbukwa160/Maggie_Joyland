@@ -6,9 +6,12 @@ import { requireAdmin } from "@/lib/auth";
 import { adjustPoints } from "@/lib/points";
 import { failure, success, type ActionState } from "@/lib/admin/action-state";
 import { revalidateAdmin } from "@/lib/admin/revalidate";
+import { apiPrincipal } from "@/lib/dilonsoft/context";
 
 export async function setUserRoleAction(userId: number, role: "customer" | "admin"): Promise<ActionState> {
   const me = await requireAdmin();
+  // Who administers the shop is decided here - never by an API key (src/lib/dilonsoft).
+  if (apiPrincipal()) return failure("Това се променя само в админ панела на сайта, не през API ключ.");
   if (role !== "customer" && role !== "admin") return failure("Невалидна роля.");
   if (userId === me.id) return failure("Не можете да промените собствената си роля.");
   const user = db.select({ id: users.id, email: users.email }).from(users).where(eq(users.id, userId)).get();

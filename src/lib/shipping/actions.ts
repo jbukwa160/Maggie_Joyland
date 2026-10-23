@@ -120,6 +120,8 @@ export async function cancelShipmentForOrder(orderId: number): Promise<{ ok: boo
     const order = db.select().from(orders).where(eq(orders.id, orderId)).get();
     if (!order) return { ok: false, error: "Поръчката не е намерена." };
     if (!order.shipmentId && !order.trackingNumber) return { ok: false, error: "Поръчката няма товарителница." };
+    // Shipped by DilonSoft (src/lib/dilonsoft/channel.ts): its waybill is on DilonSoft's courier account.
+    if (order.shipmentData?.source === "dilonsoft") return { ok: false, error: "Товарителницата е създадена от DilonSoft - анулира се там." };
 
     const carrierName = CARRIER_NAMES[order.carrier];
     try {

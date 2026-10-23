@@ -7,11 +7,14 @@ import { hashPassword, requireAdmin, rotateSessions, verifyPassword } from "@/li
 import { failure, success, type ActionState } from "@/lib/admin/action-state";
 import { str, zodErrors } from "@/lib/admin/form";
 import { revalidateAdmin } from "@/lib/admin/revalidate";
+import { apiPrincipal } from "@/lib/dilonsoft/context";
 
 const passwordRule = z.string().min(8, "Паролата трябва да е поне 8 символа.").max(200, "Паролата е твърде дълга.");
 
 export async function changePasswordAction(_prev: ActionState, fd: FormData): Promise<ActionState> {
   const me = await requireAdmin();
+  // Who signs in to this panel, and how, is decided here - never by an API key (src/lib/dilonsoft).
+  if (apiPrincipal()) return failure("Това се променя само в админ панела на сайта, не през API ключ.");
   const parsed = z
     .object({ current: z.string().min(1, "Въведете текущата парола."), next: passwordRule, repeat: z.string() })
     .refine((d) => d.next === d.repeat, { path: ["repeat"], message: "Паролите не съвпадат." })
@@ -29,6 +32,8 @@ export async function changePasswordAction(_prev: ActionState, fd: FormData): Pr
 
 export async function updateProfileAction(_prev: ActionState, fd: FormData): Promise<ActionState> {
   const me = await requireAdmin();
+  // Who signs in to this panel, and how, is decided here - never by an API key (src/lib/dilonsoft).
+  if (apiPrincipal()) return failure("Това се променя само в админ панела на сайта, не през API ключ.");
   const parsed = z
     .object({
       firstName: z.string().max(80, "Името е твърде дълго."),
@@ -44,6 +49,8 @@ export async function updateProfileAction(_prev: ActionState, fd: FormData): Pro
 
 export async function createAdminAction(_prev: ActionState, fd: FormData): Promise<ActionState> {
   await requireAdmin();
+  // Who signs in to this panel, and how, is decided here - never by an API key (src/lib/dilonsoft).
+  if (apiPrincipal()) return failure("Това се променя само в админ панела на сайта, не през API ключ.");
   const parsed = z
     .object({
       email: z.string().trim().toLowerCase().email("Въведете валиден имейл."),
